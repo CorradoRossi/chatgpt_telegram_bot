@@ -13,6 +13,7 @@ services:
 
   gpt-telegram-bot:
     container_name: gpt-telegram-bot
+    image: gptbot.azurecr.io/gpt-telegram-bot
     command: python3 bot/bot.py
     restart: always
     build:
