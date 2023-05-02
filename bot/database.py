@@ -10,7 +10,7 @@ import config
 class Database:
     def __init__(self):
         self.client = pymongo.MongoClient(config.mongodb_uri)
-        self.db = self.client["chatgpt_telegram_bot"]
+        self.db = self.client["gpt-telegram-bot"]
 
         self.user_collection = self.db["user"]
         self.dialog_collection = self.db["dialog"]

@@ -1,0 +1,44 @@
+apiVersion: "2019-12-01"
+location: <LOCATION>
+name: <CONTAINER_GROUP_NAME>
+type: Microsoft.ContainerInstance/containerGroups
+properties:
+  osType: Linux
+  restartPolicy: Always
+  containers:
+    - name: mongo
+      properties:
+        image: <ACR_LOGIN_SERVER>/mongo
+        resources:
+          requests:
+            cpu: 1
+            memoryInGB: 1
+        ports:
+          - protocol: tcp
+            port: 27017
+        environmentVariables:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            value: <MONGODB_USERNAME>
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            value: <MONGODB_PASSWORD>
+    - name: mongo-express
+      properties:
+        image: <ACR_LOGIN_SERVER>/mongo-express
+        resources:
+          requests:
+            cpu: 1
+            memoryInGB: 1
+        ports:
+          - protocol: tcp
+            port: 8081
+        environmentVariables:
+          - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+            value: <MONGODB_USERNAME>
+          - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+            value: <MONGODB_PASSWORD>
+          - name: ME_CONFIG_MONGODB_SERVER
+            value: mongo
+  imageRegistryCredentials:
+    - server: <ACR_LOGIN_SERVER>
+      username: <ACR_NAME>
+      password: <ACR_PASSWORD>
