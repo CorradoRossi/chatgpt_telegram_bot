@@ -8,11 +8,20 @@ services:
     ports:
       - 127.0.0.1:${MONGODB_PORT:-27017}:${MONGODB_PORT:-27017}
     volumes:
-      - ${MONGODB_PATH:-./mongodb}:/data/db
+      - ${gptbotstorage:-./mongodb}:/data/db
+    gptbotstorage:
+      driver: azure_file
+      driver_opts:
+        share_name: gptbotfileshare
+        storage_account_name: gptbotstorage
+        storage_account_key: rJf7gSSVh3LahF1QITwDiGjuFQiLwJ6IpYMd7mte/vxqbBOj8SOWsTxJoqBYIgw0tqSjNWkLhLsi+AStip8Z9A==
+        connection_string: DefaultEndpointsProtocol=https;AccountName=gptbotstorage;AccountKey=rJf7gSSVh3LahF1QITwDiGjuFQiLwJ6IpYMd7mte/vxqbBOj8SOWsTxJoqBYIgw0tqSjNWkLhLsi+AStip8Z9A==;EndpointSuffix=core.windows.net
+        fuck: https://gptbotstorage.file.core.windows.net/gptbotfil
     # TODO: add auth
 
   chatgpt_telegram_bot:
     container_name: chatgpt_telegram_bot
+    image: gptbot.azurecr.io/chatgpt_telegram_bot
     command: python3 bot/bot.py
     restart: always
     build:
